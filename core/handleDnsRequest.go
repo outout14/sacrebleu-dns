@@ -11,8 +11,7 @@ func HandleDnsRequest(w dns.ResponseWriter, r *dns.Msg) {
 	m.SetReply(r)
 	m.Compress = true //Less CPU usage (?)
 
-	switch r.Opcode { //Only respond to dns queries
-	case dns.OpcodeQuery:
+	if r.Opcode == dns.OpcodeQuery { //Only respond to dns queries
 		parseQuery(m)
 	}
 
