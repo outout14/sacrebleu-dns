@@ -54,7 +54,6 @@ func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int)
 	if entry.Content != "" {
 		//Cache the request in Redis if any result
 		logrus.Debugf("REDIS : Set entry for %s", redisKey)
-		logrus.Warningf("REDIS : %s", redisKey)
 		_ = redisSet(redisDb, redisKey, 30*time.Second, entry)
 		return entry, 0
 	} else {
