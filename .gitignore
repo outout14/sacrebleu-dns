@@ -1,0 +1,14 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# IDE workspace
+.idea
+.vscode
+
+
+config.ini
+log/* 
+bin/*
