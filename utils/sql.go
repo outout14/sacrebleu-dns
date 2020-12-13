@@ -37,7 +37,7 @@ func SqlTest() {
 
 func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int) {
 	dbg := DB.QueryRow(
-		"SELECT id, content, ttl FROM lighthouse.records WHERE `name` = ? AND `type` = ?;", dKey, entry.Qtype).Scan(
+		"SELECT id, content, ttl FROM records WHERE `name` = ? AND `type` = ?;", dKey, entry.Qtype).Scan(
 		&entry.Id,
 		&entry.Content,
 		&entry.TTL,
@@ -66,7 +66,7 @@ func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int)
 func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry Record) (Record, error) {
 	returnedEntry := entry
 
-	results, err := DB.Query("SELECT id, content, name FROM lighthouse.records WHERE name LIKE '*%.ip6.arpa.';")
+	results, err := DB.Query("SELECT id, content, name FROM records WHERE name LIKE '*%.ip6.arpa.';")
 
 	for results.Next() {
 		err = results.Scan(&returnedEntry.Id, &returnedEntry.Content, &returnedEntry.Fqdn)
