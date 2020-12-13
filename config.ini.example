@@ -1,0 +1,21 @@
+App_mode = "production" #Anything != production will show DEBUG messages
+
+[App]
+Ip = ":"
+Port = 5353
+Logfile = true
+Logdir = "/var/log/"
+
+[Database]
+Ip = "127.0.0.1"
+Username = "sacrebleu"
+Password = "superSecretPassword"
+Port = "3306"
+Db = "sacrebleudatabase"
+
+[Redis]
+Ip = "127.0.0.1"
+Port = 6379
+Password = ""
+Db = 0
+Ttl = 10  #In seconds 
