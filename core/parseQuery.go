@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/miekg/dns"
-	"github.com/outout14/lighthouse/utils"
+	"github.com/outout14/sacrebleu-dns/utils"
 	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )

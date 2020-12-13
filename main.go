@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/miekg/dns"
-	"github.com/outout14/lighthouse/core"
-	"github.com/outout14/lighthouse/utils"
+	"github.com/outout14/sacrebleu-dns/core"
+	"github.com/outout14/sacrebleu-dns/utils"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
 )

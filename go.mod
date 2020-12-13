@@ -1,4 +1,4 @@
-module github.com/outout14/lighthouse
+module github.com/outout14/sacrebleu-dns
 
 go 1.15
 

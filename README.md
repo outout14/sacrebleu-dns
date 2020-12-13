@@ -1,6 +1,6 @@
-# LightHouse
+# Sacrebleu
 
-LightHouse is a DNS authoritative nameserver made in Go with ``github.com/miekg/dns`` library. 
+Sacrebleu is a DNS authoritative nameserver made in Go with ``github.com/miekg/dns`` library. 
 
 Records are stored in a MySQL Database and cached using REDIS. 
 
