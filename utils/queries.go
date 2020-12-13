@@ -48,9 +48,9 @@ func GetRecord(entry Record) Record {
 			record := ExtractAddressFromReverse(entry.Fqdn)
 			var recordFormated string
 			if reverseCheck == 1 {
-				recordFormated = strings.Replace(record, ".", "-", -1)
+				recordFormated = strings.ReplaceAll(record, ".", "-")
 			} else {
-				recordFormated = strings.Replace(record, ":", "-", -1)
+				recordFormated = strings.ReplaceAll(record, ":", "-")
 			}
 			result.Content = fmt.Sprintf(result.Content, recordFormated)
 		}
