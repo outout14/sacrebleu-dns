@@ -39,7 +39,7 @@ func GetRecord(entry Record) Record {
 			result, sqlErr = sqlCheckForRecord(redisKey, entry.Fqdn, entry)
 			if sqlErr == 1 {
 				logrus.Debug("QUERIES : Check for wildcard reverse in MySQL")
-				result, redisErr = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
+				result, _ = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
 			}
 		}
 
@@ -68,7 +68,7 @@ func GetRecord(entry Record) Record {
 			if sqlErr == 1 {
 				//Check for wildcard record in mysql
 				logrus.Debug("QUERIES : Check for wildcard in MSQL")
-				result, sqlErr = sqlCheckForRecord(redismdKey, fmt.Sprint(mainDomainKey), entry)
+				result, _ = sqlCheckForRecord(redismdKey, fmt.Sprint(mainDomainKey), entry)
 			}
 		}
 	}

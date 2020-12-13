@@ -24,6 +24,7 @@ func RedisDatabase(conf *Conf) *redis.Client {
 
 	//Test Redis connection
 	err := rdb.Set(ctx, "alive", 1, 0).Err()
+	CheckErr(err)
 	alive, err := rdb.Get(ctx, "alive").Result()
 	CheckErr(err)
 	if alive != "1" {

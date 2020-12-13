@@ -66,6 +66,7 @@ func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry Record) (Re
 	returnedEntry := entry
 
 	results, err := DB.Query("SELECT id, content, name FROM records WHERE name LIKE '*%.ip6.arpa.';")
+	DbgErr(err)
 
 	for results.Next() {
 		err = results.Scan(&returnedEntry.Id, &returnedEntry.Content, &returnedEntry.Fqdn)

@@ -17,6 +17,14 @@ func CheckErr(err error) {
 	}
 }
 
+//Only used for non fatal errors.
+func DbgErr(err error) {
+	if err != nil {
+		log.Errorf("%s\n ", err.Error())
+		panic(err)
+	}
+}
+
 func InitLogger(conf *Conf) {
 	var logLevel = logrus.InfoLevel
 
