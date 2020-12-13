@@ -4,7 +4,14 @@ Sacrebleu is a DNS authoritative nameserver made in Go with ``github.com/miekg/d
 
 Records are stored in a MySQL Database and cached using REDIS. 
 
+This software requires MySQL and REDIS servers.
+
 This software is currently in development and NOT ready for production.
+
+## Initialization 
+- Move ``./extra/config.ini.example`` to ``./config.ini`` and edit it.
+- Import to your configured database the SQL structure dump from ``./extra/db.sql`` 
+- ``make build``
 
 ## What is working 
 - Read records (stricts & wildcard) from MySQL
