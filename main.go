@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"strconv"
 
-	"github.com/go-redis/redis"
 	"github.com/miekg/dns"
 	"github.com/outout14/sacrebleu-dns/core"
 	"github.com/outout14/sacrebleu-dns/utils"
@@ -15,7 +14,6 @@ import (
 //Global vars
 var conf *utils.Conf
 var DB *sql.DB
-var redisDb *redis.Client
 
 //Main loop
 func main() {

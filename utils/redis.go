@@ -58,11 +58,3 @@ func redisSet(c *redis.Client, key string, ttl time.Duration, value interface{})
 	}
 	return c.Set(ctx, key, p, ttl).Err()
 }
-
-func redisGet(c *redis.Client, key string, dest interface{}) error {
-	p, err := c.Get(ctx, key).Result()
-	if err != nil {
-		return err
-	}
-	return json.Unmarshal([]byte(p), dest)
-}
