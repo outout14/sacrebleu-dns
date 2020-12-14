@@ -8,20 +8,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func getDomain(fqdn string) *Domain {
-	domain := new(Domain)
-	err := DB.QueryRow(
-		"SELECT id, friendly_name, fqdn, owner_id, last_edit FROM lighthouse.domains WHERE `fqdn` = ?;", fqdn).Scan(
-		&domain.ID,
-		&domain.FriendlyName,
-		&domain.Fqdn,
-		&domain.OwnerId,
-		&domain.LastEdit,
-	)
-	print(err)
-	return domain
-}
-
 func GetRecord(entry Record) Record {
 	//Check for strict record in Redis cache
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
