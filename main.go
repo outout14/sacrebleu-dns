@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"strconv"
 
 	"github.com/miekg/dns"
@@ -17,9 +18,13 @@ var DB *sql.DB
 
 //Main loop
 func main() {
+	//Get config patch
+	configPatch := flag.String("config", "extra/config.ini.example", "the patch to the config file")
+	flag.Parse()
+
 	//Load Configuration
 	conf = new(utils.Conf)
-	err := ini.MapTo(conf, "./config.ini")
+	err := ini.MapTo(conf, *configPatch)
 	utils.CheckErr(err)
 
 	utils.InitLogger(conf)
