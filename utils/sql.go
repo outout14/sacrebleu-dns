@@ -18,7 +18,7 @@ func SqlDatabase(conf *Conf) {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.Database.Username, conf.Database.Password, conf.Database.Ip, conf.Database.Port, conf.Database.Db))
 	CheckErr(err)
 	DB = db
-
+	SqlTest() //Test SQL conn
 	// if there is an error opening the connection, handle it
 	CheckErr(err)
 }
