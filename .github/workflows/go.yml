@@ -2,12 +2,11 @@ name: Go
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -20,14 +19,27 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
-
-    - name: Get dependencies
-      run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
-
+      with:
+        fetch-depth: '0'
+      
     - name: Build
-      run: make compile 
+      run: |
+        GOOS=linux make build
+        GOOS=darwin make build
+        GOOS=windows EXTENSION=.exe make build
+          
+    - name: Install fpm
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rpm ruby ruby-dev
+        sudo gem install fpm
+        
+    - name: Package
+      run: make package-deb package-rpm
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist/*
+        retention-days: 14
