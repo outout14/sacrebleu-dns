@@ -40,7 +40,8 @@ package-deb: prepare
         --architecture $(ARCH) \
         --license "$(LICENSE)" \
         --package $(DIST_DIR) \
-        $(OUTPUT_SOFT)=/usr/bin/sacrebleu-dns
+        $(OUTPUT_SOFT)=/usr/bin/sacrebleu-dns \
+		extra/config.ini.example=/etc/sacrebleu/config-dns.ini
 
 .PHONY: package-rpm
 package-rpm: prepare
@@ -50,4 +51,5 @@ package-rpm: prepare
 	--architecture $(ARCH) \
 	--license "$(LICENSE) "\
 	--package $(DIST_DIR) \
-	$(OUTPUT_SOFT)=/usr/bin/sacrebleu-dns
+	$(OUTPUT_SOFT)=/usr/bin/sacrebleu-dns \
+	extra/config.ini.example=/etc/sacrebleu/config-dns.ini

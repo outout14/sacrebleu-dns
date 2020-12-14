@@ -1,0 +1,11 @@
+[Unit]
+Description=Sacrebleu DNS Server 
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/sacrebleu/
+ExecStart=/usr/bin/sacrebleu-dns --config /etc/sacrebleu/config-dns.ini
+
+[Install]
+WantedBy=multi-user.target
