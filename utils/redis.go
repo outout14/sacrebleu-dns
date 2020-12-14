@@ -10,17 +10,22 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//Redis context
 var ctx = context.Background()
 
+//Redis client as global var
 var redisDb *redis.Client
 
+//Initialize the Redis Database
+//Requires a conf struct
+//Return a *redis.Client
 func RedisDatabase(conf *Conf) *redis.Client {
 	logrus.WithFields(logrus.Fields{"ip": conf.Redis.Ip, "port": conf.Redis.Port}).Infof("REDIS : Connection to DB")
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%v", conf.Redis.Ip, conf.Redis.Port),
 		Password: conf.Redis.Password,
 		DB:       conf.Redis.Db,
-	})
+	}) //Connect to the DB
 
 	//Test Redis connection
 	err := rdb.Set(ctx, "alive", 1, 0).Err()
@@ -38,6 +43,9 @@ func RedisDatabase(conf *Conf) *redis.Client {
 	return rdb
 }
 
+//Check for a record in the Redis database
+//Requires the redis key (as string) and the record to check (struct)
+//Return a Record (struct) and error (if any)
 func redisCheckForRecord(redisKey string, entry Record) (Record, error) {
 	val, err := redisDb.Get(ctx, redisKey).Result()
 
@@ -52,6 +60,8 @@ func redisCheckForRecord(redisKey string, entry Record) (Record, error) {
 	}
 }
 
+//Add a record in the Redis database
+//Return an error (if any)
 func redisSet(c *redis.Client, key string, ttl time.Duration, value interface{}) error {
 	p, err := json.Marshal(value)
 	if err != nil {

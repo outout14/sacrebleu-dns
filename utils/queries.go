@@ -8,28 +8,34 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//Check the SQL and REDIS database for a Record.
+//A Record struct is used as input and output
 func GetRecord(entry Record) Record {
 	//Check for strict record in Redis cache
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
-
 	result, redisErr := redisCheckForRecord(redisKey, entry)
 
-	var sqlErr int
+	var sqlErr int //The err returned for sqlCheckForRecord or sqlCheckForReverse6Wildcard
 
 	//If reverse DNS
 	reverseCheck := IsReverse(entry.Fqdn)
 	if reverseCheck > 0 {
 
+		//If reverse record not found in redis
 		if redisErr == redis.Nil {
+			//Check for it in the SQL database
 			logrus.Debug("QUERIES : Check for strict reverse in MySQL")
 			result, sqlErr = sqlCheckForRecord(redisKey, entry.Fqdn, entry)
 			if sqlErr == 1 {
+				//Check for wildcard reverse in the SQL
 				logrus.Debug("QUERIES : Check for wildcard reverse in MySQL")
 				result, _ = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
 			}
 		}
 
 		//For dynamic reverse dns
+		//Check for it by looking for a "%s" in the record content
+		//If true, replace it with the formated IP
 		if strings.Contains(result.Content, "%s") {
 			record := ExtractAddressFromReverse(entry.Fqdn)
 			var recordFormated string

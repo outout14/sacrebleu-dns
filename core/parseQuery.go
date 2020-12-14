@@ -19,20 +19,21 @@ import (
 */
 
 //Function called by handleDnsRequest to parse the query from records
+//Requires dns.ReponseWriter args
 func parseQuery(m *dns.Msg) {
 	for _, q := range m.Question {
 
 		log.Infof("DNS : Query for %s (type : %v)\n", q.Name, q.Qtype) //Log
 
-		record := utils.GetRecord(utils.Record{Fqdn: q.Name, Qtype: q.Qtype})
+		record := utils.GetRecord(utils.Record{Fqdn: q.Name, Qtype: q.Qtype}) //Get the record in the SQL or Redis database
 
-		if record.Content != "" { //If the record is found, return it
-			log.Infof("DNS : Record found for '%s' => '%s'\n", q.Name, record.Content)
+		if record.Content != "" { //If the record is not empty
+			log.Infof("DNS : Record found for '%s' => '%s'\n", q.Name, record.Content)                                      //Log the content as INFO
 			rr, err := dns.NewRR(fmt.Sprintf("%s %v %s %s", q.Name, record.TTL, dns.TypeToString[q.Qtype], record.Content)) //Create the response
 			if err == nil {                                                                                                 //If no err
-				m.Answer = append(m.Answer, rr)
+				m.Answer = append(m.Answer, rr) //Append the record to the response
 			}
-		} else {
+		} else { //If the record is empty log it as DEBUG
 			logrus.Debugf("DNS : No record for '%s' (type '%v')\n", record.Fqdn, record.Qtype)
 		}
 

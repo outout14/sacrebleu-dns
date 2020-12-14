@@ -7,7 +7,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Based on github.com/coredns/coredns/plugin/pkg/dnsutil/reverse.go
+// DISCLAIMER : Based on https://github.com/coredns/coredns/blob/master/plugin/pkg/dnsutil/reverse.go
+// DISCLAIMER : Will be rewrited from scratch in future release
 
 // IsReverse returns 0 is name is not in a reverse zone. Anything > 0 indicates
 // name is in a reverse zone. The returned integer will be 1 for in-addr.arpa. (IPv4)

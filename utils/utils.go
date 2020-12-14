@@ -10,29 +10,30 @@ import (
 	"github.com/snowzach/rotatefilehook"
 )
 
+//If fatal error, log it and panic
 func CheckErr(err error) {
 	if err != nil {
 		log.Fatalf("%s\n ", err.Error())
-		panic(err)
 	}
 }
 
-//Only used for non fatal errors.
+//If basic error, log it as classic error but don't panic and keep kalm
 func DbgErr(err error) {
 	if err != nil {
 		log.Errorf("%s\n ", err.Error())
-		panic(err)
 	}
 }
 
+//Init the logrus logger with rotateFileHook.
+//Conf struct passed to get informations about the logger (debug or not)
 func InitLogger(conf *Conf) {
-	var logLevel = logrus.InfoLevel
+	var logLevel = logrus.InfoLevel //By default the level is Info.
 
-	if conf.App_mode != "production" {
+	if conf.App_mode != "production" { //If the configuration contains anything different than "production"; the level is set to Debug
 		logLevel = logrus.DebugLevel
 	}
 
-	rotateFileHook, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
+	rotateFileHook, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{ //Rotate file hook, By default 50Mb max and 28 days retention
 		Filename:   conf.App.Logdir + "/console.log",
 		MaxSize:    50, // megabytes
 		MaxBackups: 3,
@@ -49,15 +50,15 @@ func InitLogger(conf *Conf) {
 		logrus.Fatalf("Failed to initialize file rotate hook: %v", err)
 	}
 
-	logrus.SetLevel(logLevel)
-	logrus.SetOutput(colorable.NewColorableStdout())
+	logrus.SetLevel(logLevel)                        //Set the log level
+	logrus.SetOutput(colorable.NewColorableStdout()) //Force colors in the Stdout
 	logrus.SetFormatter(&logrus.TextFormatter{
 		ForceColors:     false,
 		FullTimestamp:   true,
 		TimestampFormat: time.RFC822,
 	})
 
-	if conf.App.Logfile {
+	if conf.App.Logfile { //If file logging is enabled
 		logrus.AddHook(rotateFileHook)
 	}
 
@@ -65,6 +66,8 @@ func InitLogger(conf *Conf) {
 	log.WithFields(log.Fields{"logLevel": logLevel}).Debug("Log level")
 }
 
+//Check if a reverse wildcard correspond to a record using strings.Contains
+//Return bool
 func checkReverse6(entry Record, result Record) bool {
 	check := strings.Replace(entry.Fqdn, result.Fqdn[1:], "", 1)
 	logrus.WithFields(logrus.Fields{"entry": entry.Fqdn, "result": result.Fqdn[1:]}).Debug("REVERSE checkReverse6 :")

@@ -18,30 +18,31 @@ var DB *sql.DB
 
 //Main loop
 func main() {
-	//Get config patch
+	//Get the config patch from --config flag
 	configPatch := flag.String("config", "extra/config.ini.example", "the patch to the config file")
 	flag.Parse()
 
-	//Load Configuration
+	//Load the INI configuration file
 	conf = new(utils.Conf)
 	err := ini.MapTo(conf, *configPatch)
 	utils.CheckErr(err)
 
+	//Set up the Logrus logger
 	utils.InitLogger(conf)
 
-	// attach request handler func
+	//Attach DNS request handler func for all domains
 	dns.HandleFunc(".", core.HandleDnsRequest)
 
-	//Init redis database
+	//Initialize the redis database
 	utils.RedisDatabase(conf)
 
-	//Init sql database
+	//Initialize the sql database
 	utils.SqlDatabase(conf)
 
-	// start server
-	server := &dns.Server{Addr: conf.App.Ip + strconv.Itoa(conf.App.Port), Net: "udp"} //define the server
-	logrus.WithFields(logrus.Fields{"ip": conf.App.Ip, "port": conf.App.Port}).Infof("SERVER : Started")
-	err = server.ListenAndServe() //start it
+	//Start the DNS server
+	server := &dns.Server{Addr: conf.App.Ip + strconv.Itoa(conf.App.Port), Net: "udp"}                   //define the server
+	logrus.WithFields(logrus.Fields{"ip": conf.App.Ip, "port": conf.App.Port}).Infof("SERVER : Started") //log
+	err = server.ListenAndServe()                                                                        //start it
 	utils.CheckErr(err)
 
 	defer server.Shutdown() //shut down on application closing
