@@ -24,15 +24,8 @@ func SqlDatabase(conf *Conf) {
 }
 
 func SqlTest() {
-	results, err := DB.Query("SELECT name, content FROM records")
+	_, err := DB.Query("SELECT name, content FROM records")
 	CheckErr(err)
-
-	for results.Next() {
-		var record Record
-		err = results.Scan(&record.Fqdn, &record.Content)
-		CheckErr(err)
-		logrus.Debugf(record.Content)
-	}
 }
 
 func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int) {
