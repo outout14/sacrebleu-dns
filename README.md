@@ -1,4 +1,6 @@
 # Sacrebleu
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Foutout14%2Fsacrebleu-dns.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Foutout14%2Fsacrebleu-dns?ref=badge_shield)
+
 
 Sacrebleu is a DNS authoritative nameserver made in Go with ``github.com/miekg/dns`` library. 
 
@@ -28,3 +30,7 @@ This software is currently in development and NOT ready for production.
 - Unit tests 
 - CI with auto packaging
 - Optimization
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Foutout14%2Fsacrebleu-dns.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Foutout14%2Fsacrebleu-dns?ref=badge_large)
