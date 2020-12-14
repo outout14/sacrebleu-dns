@@ -11,4 +11,4 @@ Icon
 
 config.ini
 log/* 
-bin/*
+dist/*
