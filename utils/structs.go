@@ -1,53 +1,53 @@
 package utils
 
-//Struct for App (dns server) configuration in the config.ini file
+//App : Struct for App (dns server) configuration in the config.ini file
 type App struct {
 	Port    int
-	Ip      string
+	IP      string
 	Logdir  string
 	Logfile bool
 }
 
-//Struct for SQL Database configuration in the config.ini file
+//Database : Struct for SQL Database configuration in the config.ini file
 type Database struct {
-	Ip       string
+	IP       string
 	Port     string
 	Username string
 	Password string
 	Db       string
 }
 
-//Struct for Redis  Database configuration in the config.ini file
+//Redis : Struct for Redis  Database configuration in the config.ini file
 type Redis struct {
-	Ip       string
+	IP       string
 	Port     int
 	Password string
 	Db       int
-	Ttl      int
+	TTL      int
 }
 
-//Struct for the whole config.ini file when it will be parsed by go-ini
+//Conf : Struct for the whole config.ini file when it will be parsed by go-ini
 type Conf struct {
-	App_mode string
+	AppMode string
 	App
 	Database
 	Redis
 }
 
-//Struct for a Domain (not used currently).
+//Domain : Struct for a Domain (not used currently).
 type Domain struct {
 	ID           int `json:"id"`
 	FriendlyName string
 	Fqdn         string
-	OwnerId      int
+	OwnerID      int
 	LastEdit     string
 }
 
-//Struct for a domain record
+//Record : Struct for a domain record
 //Defined by it's ID, DomainID (parent domain), Fqdn (or name), Content (value of the record), Type (as Qtype/int), TTL (used only for the DNS response and not the Redis TTL)
 type Record struct {
-	Id       int
-	DomainId int
+	ID       int
+	DomainID int
 	Fqdn     string
 	Content  string
 	Type     int

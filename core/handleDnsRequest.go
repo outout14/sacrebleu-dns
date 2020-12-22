@@ -2,9 +2,9 @@ package core
 
 import "github.com/miekg/dns"
 
-//Handle the DNS request using miekg/dns
+//HandleDNSRequest : Handle the DNS request using miekg/dns
 //Requires dns.ReponseWriter and dns.Msg args
-func HandleDnsRequest(w dns.ResponseWriter, r *dns.Msg) {
+func HandleDNSRequest(w dns.ResponseWriter, r *dns.Msg) {
 
 	//dns.Msg object
 	//Will be passed to the parseQuery() function

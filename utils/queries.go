@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//Check the SQL and REDIS database for a Record.
+//GetRecord : Check the SQL and REDIS database for a Record.
 //A Record struct is used as input and output
 func GetRecord(entry Record) Record {
 	//Check for strict record in Redis cache

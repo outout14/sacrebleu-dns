@@ -13,7 +13,10 @@ import (
 )
 
 //Global vars
+//conf Configuration
 var conf *utils.Conf
+
+//DB the SQL database
 var DB *sql.DB
 
 //Main loop
@@ -31,17 +34,17 @@ func main() {
 	utils.InitLogger(conf)
 
 	//Attach DNS request handler func for all domains
-	dns.HandleFunc(".", core.HandleDnsRequest)
+	dns.HandleFunc(".", core.HandleDNSRequest)
 
 	//Initialize the redis database
 	utils.RedisDatabase(conf)
 
 	//Initialize the sql database
-	utils.SqlDatabase(conf)
+	utils.SQLDatabase(conf)
 
 	//Start the DNS server
-	server := &dns.Server{Addr: conf.App.Ip + strconv.Itoa(conf.App.Port), Net: "udp"}                   //define the server
-	logrus.WithFields(logrus.Fields{"ip": conf.App.Ip, "port": conf.App.Port}).Infof("SERVER : Started") //log
+	server := &dns.Server{Addr: conf.App.IP + strconv.Itoa(conf.App.Port), Net: "udp"}                   //define the server
+	logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started") //log
 	err = server.ListenAndServe()                                                                        //start it
 	utils.CheckErr(err)
 

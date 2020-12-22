@@ -10,26 +10,26 @@ import (
 	"github.com/snowzach/rotatefilehook"
 )
 
-//If fatal error, log it and panic
+//CheckErr : If fatal error, log it and panic
 func CheckErr(err error) {
 	if err != nil {
 		log.Fatalf("%s\n ", err.Error())
 	}
 }
 
-//If basic error, log it as classic error but don't panic and keep kalm
+//DbgErr : If basic error, log it as classic error but don't panic and keep kalm
 func DbgErr(err error) {
 	if err != nil {
 		log.Errorf("%s\n ", err.Error())
 	}
 }
 
-//Init the logrus logger with rotateFileHook.
+//InitLogger : Init the logrus logger with rotateFileHook.
 //Conf struct passed to get informations about the logger (debug or not)
 func InitLogger(conf *Conf) {
 	var logLevel = logrus.InfoLevel //By default the level is Info.
 
-	if conf.App_mode != "production" { //If the configuration contains anything different than "production"; the level is set to Debug
+	if conf.AppMode != "production" { //If the configuration contains anything different than "production"; the level is set to Debug
 		logLevel = logrus.DebugLevel
 	}
 
@@ -62,7 +62,7 @@ func InitLogger(conf *Conf) {
 		logrus.AddHook(rotateFileHook)
 	}
 
-	log.WithFields(log.Fields{"app_mode": conf.App_mode}).Info("Application mode")
+	log.WithFields(log.Fields{"app_mode": conf.AppMode}).Info("Application mode")
 	log.WithFields(log.Fields{"logLevel": logLevel}).Debug("Log level")
 }
 
@@ -74,7 +74,6 @@ func checkReverse6(entry Record, result Record) bool {
 	logrus.Debugf("REVERSE checkReverse6 : %s", check)
 	if strings.Contains(check, IP6arpa) {
 		return false
-	} else {
-		return true
 	}
+	return true
 }

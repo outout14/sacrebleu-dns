@@ -16,13 +16,13 @@ var ctx = context.Background()
 //Redis client as global var
 var redisDb *redis.Client
 
-//Initialize the Redis Database
+//RedisDatabase : Initialize the Redis Database
 //Requires a conf struct
 //Return a *redis.Client
 func RedisDatabase(conf *Conf) *redis.Client {
-	logrus.WithFields(logrus.Fields{"ip": conf.Redis.Ip, "port": conf.Redis.Port}).Infof("REDIS : Connection to DB")
+	logrus.WithFields(logrus.Fields{"ip": conf.Redis.IP, "port": conf.Redis.Port}).Infof("REDIS : Connection to DB")
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%v", conf.Redis.Ip, conf.Redis.Port),
+		Addr:     fmt.Sprintf("%s:%v", conf.Redis.IP, conf.Redis.Port),
 		Password: conf.Redis.Password,
 		DB:       conf.Redis.Db,
 	}) //Connect to the DB
@@ -54,10 +54,8 @@ func redisCheckForRecord(redisKey string, entry Record) (Record, error) {
 		err := json.Unmarshal([]byte(val), &entry)
 		logrus.Debugf("REDIS : %s => %s", redisKey, entry.Content)
 		return entry, err
-	} else {
-		//Else return nil
-		return entry, redis.Nil
 	}
+	return entry, redis.Nil
 }
 
 //Add a record in the Redis database
