@@ -1,8 +1,8 @@
-App_mode = "production" #Anything != production will show DEBUG messages
+AppMode = "production" #Anything != production will show DEBUG messages
 
 [App]
 IP = ":"
-Port = 5353
+Port = 5354
 Logfile = true
 Logdir = "/var/log/"
 
@@ -12,6 +12,7 @@ Username = "sacrebleu"
 Password = "superSecretPassword"
 Port = "3306"
 Db = "sacrebleudatabase"
+Type = "mysql" #postgresql or mysql
 
 [Redis]
 IP = "127.0.0.1"

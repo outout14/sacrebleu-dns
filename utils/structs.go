@@ -15,6 +15,7 @@ type Database struct {
 	Username string
 	Password string
 	Db       string
+	Type     string
 }
 
 //Redis : Struct for Redis  Database configuration in the config.ini file

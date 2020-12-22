@@ -7,6 +7,8 @@ import (
 
 	"github.com/go-redis/redis"
 	_ "github.com/go-sql-driver/mysql" //MySQL driver
+	_ "github.com/jackc/pgx/stdlib"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,11 +18,20 @@ var DB *sql.DB
 //SQLDatabase Initialize the (My)SQL Database
 //Requires a conf struct
 func SQLDatabase(conf *Conf) {
-	logrus.WithFields(logrus.Fields{"database": conf.Database.Db}).Infof("SQL : Connection to DB")
+	logrus.WithFields(logrus.Fields{"database": conf.Database.Db, "driver": conf.Database.Type}).Infof("SQL : Connection to DB")
 	//Connect to the Database
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.Database.Username, conf.Database.Password, conf.Database.IP, conf.Database.Port, conf.Database.Db))
+	var err error
+
+	if conf.Database.Type == "postgresql" {
+		conString := fmt.Sprintf("user=%s password=%s host=%s port=%s database=%s sslmode=disable", conf.Database.Username, conf.Database.Password, conf.Database.IP, conf.Database.Port, conf.Database.Db)
+
+		DB, err = sql.Open("pgx", conString)
+	} else {
+		conString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.Database.Username, conf.Database.Password, conf.Database.IP, conf.Database.Port, conf.Database.Db)
+
+		DB, err = sql.Open("mysql", conString)
+	}
 	CheckErr(err)
-	DB = db
 	SQLTest() //Test SQL connexion
 }
 
