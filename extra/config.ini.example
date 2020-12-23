@@ -2,7 +2,7 @@ AppMode = "production" #Anything != production will show DEBUG messages
 
 [App]
 IP = ":"
-Port = 5354
+Port = 5353
 Logfile = true
 Logdir = "/var/log/"
 
