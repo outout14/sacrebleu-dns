@@ -21,8 +21,8 @@ var DB *sql.DB
 
 //Main loop
 func main() {
-	//Get the config patch from --config flag
-	configPatch := flag.String("config", "extra/config.ini.example", "the patch to the config file")
+	configPatch := flag.String("config", "extra/config.ini.example", "the patch to the config file") //Get the config patch from --config flag
+	sqlMigration := flag.Bool("sqlmigrate", false, "initialize / migrate the database")              //Detect if migration asked
 	flag.Parse()
 
 	//Load the INI configuration file
@@ -41,6 +41,9 @@ func main() {
 
 	//Initialize the sql database
 	utils.SQLDatabase(conf)
+	if *sqlMigration {
+		utils.SQLMigrate()
+	}
 
 	//Start the DNS server
 	server := &dns.Server{Addr: conf.App.IP + strconv.Itoa(conf.App.Port), Net: "udp"}                   //define the server

@@ -34,9 +34,15 @@ func SQLDatabase(conf *Conf) {
 	CheckErr(err)
 }
 
+//SQLMigrate : Launch the database migration (creation of tables)
+func SQLMigrate() {
+	logrus.Info("SQL : Database migration launched")
+	db.AutoMigrate(&Record{})
+}
+
 //Check for a record in the SQL database
 func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, bool) {
-	db.Where("name = ? AND type = ?", dKey, entry.Qtype).First(&entry)
+	db.Where("fqdn = ? AND type = ?", dKey, entry.Qtype).First(&entry)
 
 	logrus.Debugf("SQL : %s => %s", entry.Fqdn, entry.Content) //log the result
 
@@ -55,7 +61,7 @@ func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, bool
 func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry Record) (Record, error) {
 	returnedEntry := entry
 
-	rows, err := db.Table("records").Select("id", "content", "name").Where("name LIKE ?", "*%.ip6.arpa.").Rows()
+	rows, err := db.Table("records").Select("id", "content", "fqdn").Where("fqdn LIKE ?", "*%.ip6.arpa.").Rows()
 
 	DbgErr(err) //Check for empty row or non important error
 
