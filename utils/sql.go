@@ -35,7 +35,7 @@ func SQLDatabase(conf *Conf) {
 }
 
 //Check for a record in the SQL database
-func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int) {
+func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, bool) {
 	db.Where("name = ? AND type = ?", dKey, entry.Qtype).First(&entry)
 
 	logrus.Debugf("SQL : %s => %s", entry.Fqdn, entry.Content) //log the result
@@ -44,10 +44,10 @@ func sqlCheckForRecord(redisKey string, dKey string, entry Record) (Record, int)
 		//Cache the request in Redis if any result
 		logrus.Debugf("REDIS : Set entry for %s", redisKey)
 		_ = redisSet(redisDb, redisKey, 30*time.Second, entry) //Set it in the Redis database for 30sec
-		return entry, 0
+		return entry, false
 	}
 	//Else return 1 for err
-	return entry, 1
+	return entry, true
 
 }
 

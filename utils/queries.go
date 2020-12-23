@@ -15,7 +15,7 @@ func GetRecord(entry Record) Record {
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
 	result, redisErr := redisCheckForRecord(redisKey, entry)
 
-	var sqlErr int //The err returned for sqlCheckForRecord or sqlCheckForReverse6Wildcard
+	var sqlErr bool //The err returned for sqlCheckForRecord or sqlCheckForReverse6Wildcard
 
 	//If reverse DNS
 	reverseCheck := IsReverse(entry.Fqdn)
@@ -26,7 +26,7 @@ func GetRecord(entry Record) Record {
 			//Check for it in the SQL database
 			logrus.Debug("QUERIES : Check for strict reverse in MySQL")
 			result, sqlErr = sqlCheckForRecord(redisKey, entry.Fqdn, entry)
-			if sqlErr == 1 {
+			if sqlErr {
 				//Check for wildcard reverse in the SQL
 				logrus.Debug("QUERIES : Check for wildcard reverse in MySQL")
 				result, _ = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
@@ -57,7 +57,7 @@ func GetRecord(entry Record) Record {
 			//Check for strict record in mysql
 			logrus.Debug("QUERIES : Check for strict record in MSQL")
 			result, sqlErr = sqlCheckForRecord(redisKey, entry.Fqdn, entry)
-			if sqlErr == 1 {
+			if sqlErr {
 				//Check for wildcard record in mysql
 				logrus.Debug("QUERIES : Check for wildcard in MSQL")
 				result, _ = sqlCheckForRecord(redismdKey, fmt.Sprint(mainDomainKey), entry)
