@@ -72,8 +72,5 @@ func checkReverse6(entry Record, result Record) bool {
 	check := strings.Replace(entry.Fqdn, result.Fqdn[1:], "", 1)
 	logrus.WithFields(logrus.Fields{"entry": entry.Fqdn, "result": result.Fqdn[1:]}).Debug("REVERSE checkReverse6 :")
 	logrus.Debugf("REVERSE checkReverse6 : %s", check)
-	if strings.Contains(check, IP6arpa) {
-		return false
-	}
-	return true
+	return !strings.Contains(check, IP6arpa)
 }
