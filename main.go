@@ -21,7 +21,7 @@ var DB *sql.DB
 
 //Main loop
 func main() {
-	configPatch := flag.String("config", "extra/config.ini.example", "the patch to the config file") //Get the config patch from --config flag
+	configPatch := flag.String("config", "config.ini", "the patch to the config file") //Get the config patch from --config flag
 	sqlMigration := flag.Bool("sqlmigrate", false, "initialize / migrate the database")              //Detect if migration asked
 	flag.Parse()
 
