@@ -10,7 +10,7 @@ type App struct {
 
 //Database : Struct for SQL Database configuration in the config.ini file
 type Database struct {
-	IP       string `ini:"IP"`
+	Host     string `ini:"Host"`
 	Port     string
 	Username string
 	Password string
