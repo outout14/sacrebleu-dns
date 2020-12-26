@@ -3,33 +3,33 @@ package utils
 //App : Struct for App (dns server) configuration in the config.ini file
 type App struct {
 	Port    int
-	IP      string
+	IP      string `ini:"IP"`
 	Logdir  string
 	Logfile bool
 }
 
 //Database : Struct for SQL Database configuration in the config.ini file
 type Database struct {
-	IP       string
+	Host     string `ini:"Host"`
 	Port     string
 	Username string
 	Password string
-	Db       string
+	Db       string `ini:"DB"`
 	Type     string
 }
 
 //Redis : Struct for Redis  Database configuration in the config.ini file
 type Redis struct {
-	IP       string
+	IP       string `ini:"IP"`
 	Port     int
 	Password string
-	Db       int
-	TTL      int
+	Db       int `ini:"DB"`
+	TTL      int `ini:"TTL"`
 }
 
 //Conf : Struct for the whole config.ini file when it will be parsed by go-ini
 type Conf struct {
-	AppMode string
+	AppMode string `ini:"app_mode"`
 	App
 	Database
 	Redis

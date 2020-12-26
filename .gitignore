@@ -12,3 +12,6 @@ Icon
 config.ini
 log/* 
 dist/*
+
+# binary
+sacrebleu-dns
