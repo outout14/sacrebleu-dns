@@ -46,16 +46,17 @@ func RedisDatabase(conf *Conf) *redis.Client {
 //Check for a record in the Redis database
 //Requires the redis key (as string) and the record to check (struct)
 //Return a Record (struct) and error (if any)
-func redisCheckForRecord(redisKey string, entry Record) (Record, error) {
+func redisCheckForRecord(redisKey string, entry Record) ([]Record, error) {
 	val, err := redisDb.Get(ctx, redisKey).Result()
+
+	var result []Record
 
 	//If Record in Redis cache
 	if err == nil {
-		err := json.Unmarshal([]byte(val), &entry)
-		logrus.Debugf("REDIS : %s => %s", redisKey, entry.Content)
-		return entry, err
+		err := json.Unmarshal([]byte(val), &result)
+		return result, err
 	}
-	return entry, redis.Nil
+	return result, redis.Nil
 }
 
 //Add a record in the Redis database

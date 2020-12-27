@@ -3,7 +3,6 @@ module github.com/outout14/sacrebleu-dns
 go 1.15
 
 require (
-	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-redis/redis/v8 v8.4.2
 	github.com/mattn/go-colorable v0.1.8
 	github.com/miekg/dns v1.1.35

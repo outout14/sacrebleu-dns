@@ -10,7 +10,7 @@ import (
 
 //GetRecord : Check the SQL and REDIS database for a Record.
 //A Record struct is used as input and output
-func GetRecord(entry Record) Record {
+func GetRecord(entry Record) []Record {
 	//Check for strict record in Redis cache
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
 	result, redisErr := redisCheckForRecord(redisKey, entry)
@@ -29,23 +29,26 @@ func GetRecord(entry Record) Record {
 			if sqlErr {
 				//Check for wildcard reverse in the SQL
 				logrus.Debug("QUERIES : Check for wildcard reverse in MySQL")
-				result, _ = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
+				result = sqlCheckForReverse6Wildcard(redisKey, entry.Fqdn, entry)
 			}
 		}
 
 		//For dynamic reverse dns
 		//Check for it by looking for a "%s" in the record content
 		//If true, replace it with the formated IP
-		if strings.Contains(result.Content, "%s") {
-			record := ExtractAddressFromReverse(entry.Fqdn)
-			var recordFormated string
-			if reverseCheck == 1 {
-				recordFormated = strings.ReplaceAll(record, ".", "-")
-			} else {
-				recordFormated = strings.ReplaceAll(record, ":", "-")
+		for _, r := range result {
+			if strings.Contains(r.Content, "%s") {
+				record := ExtractAddressFromReverse(entry.Fqdn)
+				var recordFormated string
+				if reverseCheck == 1 {
+					recordFormated = strings.ReplaceAll(record, ".", "-")
+				} else {
+					recordFormated = strings.ReplaceAll(record, ":", "-")
+				}
+				r.Content = fmt.Sprintf(r.Content, recordFormated)
 			}
-			result.Content = fmt.Sprintf(result.Content, recordFormated)
 		}
+
 	} else if redisErr == redis.Nil { //If strict record NOT in Redis cache & not Reverse
 		//Check for wildcard in Redis cache
 		logrus.Debug("QUERIES : Check for wildcard in redis cache")
