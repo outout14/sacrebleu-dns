@@ -49,12 +49,6 @@ func SQLDatabase(conf *Conf) *gorm.DB {
 	return DB
 }
 
-//SQLMigrate : Launch the database migration (creation of tables)
-func SQLMigrate() {
-	logrus.Info("SQL : Database migration launched")
-	db.AutoMigrate(&types.Record{})
-}
-
 //Check for a record in the SQL database
 func sqlCheckForRecord(redisKey string, dKey string, entry types.Record) ([]types.Record, bool) {
 	var records []types.Record

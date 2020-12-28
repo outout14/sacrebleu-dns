@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/miekg/dns"
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/outout14/sacrebleu-dns/core"
 	"github.com/outout14/sacrebleu-dns/utils"
 	"github.com/sirupsen/logrus"
@@ -40,9 +41,9 @@ func main() {
 	utils.RedisDatabase(conf)
 
 	//Initialize the sql database
-	utils.SQLDatabase(conf)
+	db := utils.SQLDatabase(conf)
 	if *sqlMigration {
-		utils.SQLMigrate()
+		types.SQLMigrate(db)
 	}
 
 	//Start the DNS server
