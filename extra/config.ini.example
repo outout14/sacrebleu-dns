@@ -8,7 +8,7 @@ Logdir = "/var/log/"
 
 [Database]
 # Type can be either postgresql or mysql
-Type = "postgresql"
+Type = "mysql"
 # if type if postgres, you can also connect to the DB with a socket file
 Host = "127.0.0.1" # can be either an IP address or a socket, it's often /var/run/postgresql/
 Username = "sacrebleu"
