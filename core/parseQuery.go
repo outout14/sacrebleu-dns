@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/miekg/dns"
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/outout14/sacrebleu-dns/utils"
 	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
@@ -25,7 +26,7 @@ func parseQuery(m *dns.Msg) {
 
 		log.Infof("DNS : Query for %s (type : %v)\n", q.Name, q.Qtype) //Log
 
-		records := utils.GetRecord(utils.Record{Fqdn: q.Name, Qtype: q.Qtype}) //Get the record in the SQL or Redis database
+		records := utils.GetRecord(types.Record{Fqdn: q.Name, Qtype: q.Qtype}) //Get the record in the SQL or Redis database
 
 		for _, record := range records {
 			if record.Content != "" { //If the record is not empty

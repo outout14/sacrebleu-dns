@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/mattn/go-colorable"
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 	"github.com/snowzach/rotatefilehook"
@@ -68,7 +69,7 @@ func InitLogger(conf *Conf) {
 
 //Check if a reverse wildcard correspond to a record using strings.Contains
 //Return bool
-func checkReverse6(entry Record, result Record) bool {
+func checkReverse6(entry types.Record, result types.Record) bool {
 	check := strings.Replace(entry.Fqdn, result.Fqdn[1:], "", 1)
 	logrus.WithFields(logrus.Fields{"entry": entry.Fqdn, "result": result.Fqdn[1:]}).Debug("REVERSE checkReverse6 :")
 	logrus.Debugf("REVERSE checkReverse6 : %s", check)

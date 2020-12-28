@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -51,20 +52,20 @@ func SQLDatabase(conf *Conf) *gorm.DB {
 //SQLMigrate : Launch the database migration (creation of tables)
 func SQLMigrate() {
 	logrus.Info("SQL : Database migration launched")
-	db.AutoMigrate(&Record{})
+	db.AutoMigrate(&types.Record{})
 }
 
 //Check for a record in the SQL database
-func sqlCheckForRecord(redisKey string, dKey string, entry Record) ([]Record, bool) {
-	var records []Record
+func sqlCheckForRecord(redisKey string, dKey string, entry types.Record) ([]types.Record, bool) {
+	var records []types.Record
 
-	rows, err := db.Where("fqdn = ? AND type = ?", dKey, entry.Qtype).Model(&Record{}).Rows()
+	rows, err := db.Where("fqdn = ? AND type = ?", dKey, entry.Qtype).Model(&types.Record{}).Rows()
 	if err != nil {
 		return records, true
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var entry Record
+		var entry types.Record
 		db.ScanRows(rows, &entry)
 
 		if entry.Content != "" { //If Record content not empty
@@ -77,14 +78,14 @@ func sqlCheckForRecord(redisKey string, dKey string, entry Record) ([]Record, bo
 }
 
 //Check for a wildcard record in the SQL database
-func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry Record) []Record {
+func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry types.Record) []types.Record {
 	returnedEntry := entry
 
 	rows, err := db.Table("records").Select("id", "content", "fqdn").Where("fqdn LIKE ?", "*%.ip6.arpa.").Rows()
 
 	DbgErr(err) //Check for empty row or non important error
 
-	var records []Record
+	var records []types.Record
 
 	//For each result check if it match the reverse IP
 	for rows.Next() {

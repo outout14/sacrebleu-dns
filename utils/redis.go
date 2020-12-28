@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -46,10 +47,10 @@ func RedisDatabase(conf *Conf) *redis.Client {
 //Check for a record in the Redis database
 //Requires the redis key (as string) and the record to check (struct)
 //Return a Record (struct) and error (if any)
-func redisCheckForRecord(redisKey string, entry Record) ([]Record, error) {
+func redisCheckForRecord(redisKey string, entry types.Record) ([]types.Record, error) {
 	val, err := redisDb.Get(ctx, redisKey).Result()
 
-	var result []Record
+	var result []types.Record
 
 	//If Record in Redis cache
 	if err == nil {

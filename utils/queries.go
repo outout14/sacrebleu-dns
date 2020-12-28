@@ -5,12 +5,13 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/outout14/sacrebleu-api/api/types"
 	"github.com/sirupsen/logrus"
 )
 
 //GetRecord : Check the SQL and REDIS database for a Record.
 //A Record struct is used as input and output
-func GetRecord(entry Record) []Record {
+func GetRecord(entry types.Record) []types.Record {
 	//Check for strict record in Redis cache
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
 	result, redisErr := redisCheckForRecord(redisKey, entry)
