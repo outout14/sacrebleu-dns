@@ -47,7 +47,7 @@ func main() {
 	}
 
 	//Start the DNS server
-	server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "udp"}             //define the server
+	server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "tcp"}             //define the server
 	logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started") //log
 	err = server.ListenAndServe()                                                                        //start it
 	utils.CheckErr(err)

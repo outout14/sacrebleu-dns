@@ -1,6 +1,8 @@
 package core
 
-import "github.com/miekg/dns"
+import (
+	"github.com/miekg/dns"
+)
 
 //HandleDNSRequest : Handle the DNS request using miekg/dns
 //Requires dns.ReponseWriter and dns.Msg args
@@ -12,7 +14,9 @@ func HandleDNSRequest(w dns.ResponseWriter, r *dns.Msg) {
 	m.SetReply(r)
 	m.Compress = false
 
-	if r.Opcode == dns.OpcodeQuery { //Only respond to dns queries
+	if r.Question[0].Qtype == dns.TypeAXFR {
+		parseAXFR(m)
+	} else if r.Opcode == dns.OpcodeQuery { //Only respond to dns queries
 		parseQuery(m)
 	}
 
