@@ -39,4 +39,5 @@ type Conf struct {
 	App
 	Database
 	Redis
+	DNS DNS
 }

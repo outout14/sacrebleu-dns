@@ -56,6 +56,8 @@ Variables names are case sensitives.
 |Port|int|``6379``|Redis Database port
 |DB|int|``0``|Redis Database ID
 |TTL|int|``10``|Redis Time To Live (in seconds)
+|DNS|Section
+|XfrIPs|[]string|``*,192.0.2.9,192.0.2.98``|Allowed IPs for XFR transfer (``*`` for any)
 
 ## What is working 
 - Read records (stricts & wildcard) from MySQL
