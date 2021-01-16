@@ -31,6 +31,8 @@ func GetAllRecords(d types.Domain) []types.Record {
 	DbgErr(err)
 
 	soa, err := d.GetSOA(db)
+	DbgErr(err)
+
 	results = append([]types.Record{soa}, results...)
 
 	return results
