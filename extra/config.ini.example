@@ -22,3 +22,7 @@ Port = 6379
 Password = ""
 DB = 0
 TTL = 10  #In seconds 
+
+[DNS]
+XfrIPs = *, 10.100.0.3 #Array of slaves IPs
+Nameservers = ns1.example.org, ns2.example.org, ns1.example.com #Arry of NS urls. (the first one is the master) 

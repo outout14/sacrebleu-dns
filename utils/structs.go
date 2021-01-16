@@ -27,10 +27,17 @@ type Redis struct {
 	TTL      int `ini:"TTL"`
 }
 
+//DNS : Struct for XFR and NS
+type DNS struct {
+	XfrIPs      []string
+	Nameservers []string
+}
+
 //Conf : Struct for the whole config.ini file when it will be parsed by go-ini
 type Conf struct {
 	AppMode string `ini:"app_mode"`
 	App
 	Database
 	Redis
+	DNS DNS
 }

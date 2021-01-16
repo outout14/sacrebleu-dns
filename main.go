@@ -35,7 +35,7 @@ func main() {
 	utils.InitLogger(conf)
 
 	//Attach DNS request handler func for all domains
-	dns.HandleFunc(".", core.HandleDNSRequest)
+	dns.HandleFunc(".", func(w dns.ResponseWriter, r *dns.Msg) { core.HandleDNSRequest(w, r, conf) })
 
 	//Initialize the redis database
 	utils.RedisDatabase(conf)
@@ -47,9 +47,11 @@ func main() {
 	}
 
 	//Start the DNS server
-	server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "udp"}             //define the server
+	server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "tcp"}             //define the server
 	logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started") //log
-	err = server.ListenAndServe()                                                                        //start it
+	logrus.WithFields(logrus.Fields{"XfrIPs": conf.DNS.XfrIPs}).Debug("")
+
+	err = server.ListenAndServe() //start it
 	utils.CheckErr(err)
 
 	defer server.Shutdown() //shut down on application closing
