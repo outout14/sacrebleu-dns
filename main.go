@@ -3,7 +3,10 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 
 	"github.com/miekg/dns"
 	"github.com/outout14/sacrebleu-api/api/types"
@@ -46,13 +49,27 @@ func main() {
 		types.SQLMigrate(db)
 	}
 
-	//Start the DNS server
-	server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "tcp"}             //define the server
-	logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started") //log
-	logrus.WithFields(logrus.Fields{"XfrIPs": conf.DNS.XfrIPs}).Debug("")
+	//Start the UDP listener
+	go func() {
+		server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "udp"}                          //define the server
+		logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started UDP listener") //log
+		if err := server.ListenAndServe(); err != nil {
+			logrus.Fatalf("Failed to set udp listener %s\n", err.Error())
+		}
+	}()
 
-	err = server.ListenAndServe() //start it
-	utils.CheckErr(err)
+	//Start the TCP listener
+	go func() {
+		server := &dns.Server{Addr: conf.App.IP + ":" + strconv.Itoa(conf.App.Port), Net: "tcp"}                          //define the server
+		logrus.WithFields(logrus.Fields{"ip": conf.App.IP, "port": conf.App.Port}).Infof("SERVER : Started TCP listener") //log
+		if err := server.ListenAndServe(); err != nil {
+			logrus.Fatalf("Failed to set udp listener %s\n", err.Error())
+		}
+	}()
 
-	defer server.Shutdown() //shut down on application closing
+	sig := make(chan os.Signal)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
+	s := <-sig
+	logrus.Infof("Signal (%v) received, stopping\n", s)
+
 }
