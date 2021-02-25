@@ -67,7 +67,7 @@ func main() {
 		}
 	}()
 
-	sig := make(chan os.Signal)
+	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 	s := <-sig
 	logrus.Infof("Signal (%v) received, stopping\n", s)
