@@ -7,8 +7,8 @@ import (
 	"github.com/outout14/sacrebleu-dns/utils"
 )
 
-//HandleDNSRequest : Handle the DNS request using miekg/dns
-//Requires dns.ReponseWriter and dns.Msg args
+// HandleDNSRequest : Handle the DNS request using miekg/dns
+// Requires dns.ReponseWriter and dns.Msg args
 func HandleDNSRequest(w dns.ResponseWriter, r *dns.Msg, conf *utils.Conf) {
 	//dns.Msg object
 	//Will be passed to the parseQuery() function

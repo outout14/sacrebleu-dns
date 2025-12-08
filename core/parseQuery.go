@@ -19,8 +19,8 @@ import (
 	AAAA = 28
 */
 
-//Function called by handleDnsRequest to parse the query from records
-//Requires dns.ReponseWriter args
+// Function called by handleDnsRequest to parse the query from records
+// Requires dns.ReponseWriter args
 func parseQuery(m *dns.Msg) {
 	for _, q := range m.Question {
 

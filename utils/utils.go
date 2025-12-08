@@ -11,22 +11,22 @@ import (
 	"github.com/snowzach/rotatefilehook"
 )
 
-//CheckErr : If fatal error, log it and panic
+// CheckErr : If fatal error, log it and panic
 func CheckErr(err error) {
 	if err != nil {
 		log.Fatalf("%s\n ", err.Error())
 	}
 }
 
-//DbgErr : If basic error, log it as classic error but don't panic and keep kalm
+// DbgErr : If basic error, log it as classic error but don't panic and keep kalm
 func DbgErr(err error) {
 	if err != nil {
 		log.Errorf("%s\n ", err.Error())
 	}
 }
 
-//InitLogger : Init the logrus logger with rotateFileHook.
-//Conf struct passed to get informations about the logger (debug or not)
+// InitLogger : Init the logrus logger with rotateFileHook.
+// Conf struct passed to get informations about the logger (debug or not)
 func InitLogger(conf *Conf) {
 	var logLevel = logrus.InfoLevel //By default the level is Info.
 
@@ -67,8 +67,8 @@ func InitLogger(conf *Conf) {
 	log.WithFields(log.Fields{"logLevel": logLevel}).Debug("Log level")
 }
 
-//Check if a reverse wildcard correspond to a record using strings.Contains
-//Return bool
+// Check if a reverse wildcard correspond to a record using strings.Contains
+// Return bool
 func checkReverse6(entry types.Record, result types.Record) bool {
 	check := strings.Replace(entry.Fqdn, result.Fqdn[1:], "", 1)
 	logrus.WithFields(logrus.Fields{"entry": entry.Fqdn, "result": result.Fqdn[1:]}).Debug("REVERSE checkReverse6 :")

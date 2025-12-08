@@ -9,8 +9,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//GetRecord : Check the SQL and REDIS database for a Record.
-//A Record struct is used as input and output
+// GetRecord : Check the SQL and REDIS database for a Record.
+// A Record struct is used as input and output
 func GetRecord(entry types.Record) []types.Record {
 	//Check for strict record in Redis cache
 	redisKey := entry.Fqdn + "--" + fmt.Sprint(entry.Qtype)
