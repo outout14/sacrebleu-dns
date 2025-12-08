@@ -9,7 +9,7 @@ require (
 	github.com/mattn/go-colorable v0.1.12
 	github.com/miekg/dns v1.1.49
 	github.com/outout14/sacrebleu-api v0.0.0-20210117222026-ad3dd47ae240
-	github.com/sirupsen/logrus v1.8.1
+	github.com/sirupsen/logrus v1.8.3
 	github.com/snowzach/rotatefilehook v0.0.0-20220211133110-53752135082d
 	github.com/stretchr/testify v1.7.1 // indirect
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
