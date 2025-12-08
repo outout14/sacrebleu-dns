@@ -1,6 +1,6 @@
 package utils
 
-//App : Struct for App (dns server) configuration in the config.ini file
+// App : Struct for App (dns server) configuration in the config.ini file
 type App struct {
 	Port           int
 	IP             string `ini:"IP"`
@@ -9,7 +9,7 @@ type App struct {
 	AllowedOrigins []string //API conf only
 }
 
-//Database : Struct for SQL Database configuration in the config.ini file
+// Database : Struct for SQL Database configuration in the config.ini file
 type Database struct {
 	Host     string `ini:"Host"`
 	Port     string
@@ -19,7 +19,7 @@ type Database struct {
 	Type     string
 }
 
-//Redis : Struct for Redis  Database configuration in the config.ini file
+// Redis : Struct for Redis  Database configuration in the config.ini file
 type Redis struct {
 	IP       string `ini:"IP"`
 	Port     int
@@ -28,13 +28,13 @@ type Redis struct {
 	TTL      int `ini:"TTL"`
 }
 
-//DNS : Struct for XFR and NS
+// DNS : Struct for XFR and NS
 type DNS struct {
 	XfrIPs      []string //DNS conf only
 	Nameservers []string //API conf only
 }
 
-//Conf : Struct for the whole config.ini file when it will be parsed by go-ini
+// Conf : Struct for the whole config.ini file when it will be parsed by go-ini
 type Conf struct {
 	AppMode string `ini:"app_mode"`
 	App

@@ -16,14 +16,14 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-//Global vars
-//conf Configuration
+// Global vars
+// conf Configuration
 var conf *utils.Conf
 
-//DB the SQL database
+// DB the SQL database
 var DB *sql.DB
 
-//Main loop
+// Main loop
 func main() {
 	configPatch := flag.String("config", "config.ini", "the patch to the config file")  //Get the config patch from --config flag
 	sqlMigration := flag.Bool("sqlmigrate", false, "initialize / migrate the database") //Detect if migration asked

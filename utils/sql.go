@@ -12,11 +12,11 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-//DB SQL database as global var
+// DB SQL database as global var
 var db *gorm.DB
 
-//SQLDatabase Initialize the SQL Database
-//Requires a conf struct
+// SQLDatabase Initialize the SQL Database
+// Requires a conf struct
 func SQLDatabase(conf *Conf) *gorm.DB {
 	logrus.WithFields(logrus.Fields{"database": conf.Database.Db, "driver": conf.Database.Type}).Infof("SQL : Connection to DB")
 	var gormLogLevel logger.LogLevel
@@ -49,7 +49,7 @@ func SQLDatabase(conf *Conf) *gorm.DB {
 	return DB
 }
 
-//Check for a record in the SQL database
+// Check for a record in the SQL database
 func sqlCheckForRecord(redisKey string, dKey string, entry types.Record) ([]types.Record, bool) {
 	var records []types.Record
 
@@ -71,7 +71,7 @@ func sqlCheckForRecord(redisKey string, dKey string, entry types.Record) ([]type
 	return records, false
 }
 
-//Check for a wildcard record in the SQL database
+// Check for a wildcard record in the SQL database
 func sqlCheckForReverse6Wildcard(redisKey string, dKey string, entry types.Record) []types.Record {
 	returnedEntry := entry
 
